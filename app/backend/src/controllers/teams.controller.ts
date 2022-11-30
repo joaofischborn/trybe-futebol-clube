@@ -3,7 +3,7 @@ import TeamsService from '../services/teams.service';
 
 export default class TeamsController {
   public teamsService = new TeamsService();
-
+  //
   async getAll(req: Request, res: Response) {
     const teams = await this.teamsService.getAll();
     res.status(200).json(teams);
