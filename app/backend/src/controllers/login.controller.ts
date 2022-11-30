@@ -8,7 +8,7 @@ export default class LoginController {
 
   async login(req: Request, res: Response) {
     const { error } = await this.loginSchema.validateObject(req.body);
-    if (error) return res.status(400).json({ message: error.details[0].message });
+    if (error) return res.status(400).json({ message: 'All fields must be filled' });
     const token = await this.loginService.login(req.body);
     if (!token) return res.status(401).json({ message: 'Incorrect email or password' });
     return res.status(200).json({ token });

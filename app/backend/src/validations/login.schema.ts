@@ -16,6 +16,7 @@ export default class LoginSchema {
       }),
       role: Joi.string(),
     });
+
     return schema.validate(input);
   };
 }

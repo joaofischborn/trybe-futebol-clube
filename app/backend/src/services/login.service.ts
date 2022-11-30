@@ -8,13 +8,10 @@ class LoginService {
   public jwt = jsonwebtoken;
 
   async login(body: ILogin) {
-    const { email, password } = body;
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email: body.email } });
     if (user) {
-      const check = compareSync(password, user.dataValues.password);
-      const payload = { email: user.dataValues.email,
-        password: user.dataValues.password,
-        role: user.dataValues.role };
+      const check = compareSync(body.password, user.password);
+      const payload = { email: body.email, password: body.password, role: user.role };
       if (check) {
         const token = this.jwt.sign(payload, `${process.env.JWT_SECRET as string}`);
         return token;
@@ -26,7 +23,7 @@ class LoginService {
     const isAuthorized = this.jwt.verify(token, `${process.env.JWT_SECRET as string}`) as ILogin;
     const { email } = isAuthorized;
     const user = await User.findOne({ where: { email } });
-    if (user) return user.dataValues.role;
+    if (user) return user.role;
   }
 }
 
