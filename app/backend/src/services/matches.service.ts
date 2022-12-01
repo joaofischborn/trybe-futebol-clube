@@ -1,3 +1,4 @@
+import IMatches from '../interfaces/IMatches';
 import Matches from '../database/models/MatchesModel';
 import Teams from '../database/models/TeamsModel';
 
@@ -29,5 +30,31 @@ export default class MatchesService {
       });
       return noProgress;
     }
+  };
+
+  insertNewMatch = async (body: IMatches) => {
+    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = body;
+    if (homeTeam === awayTeam) {
+      return { type: 422, message: 'It is not possible to create a match with two equal teams' };
+    }
+
+    const home = await this.findById(homeTeam);
+    const away = await this.findById(awayTeam);
+
+    if (!home || !away) return { type: 404, message: 'There is no team with such id!' };
+
+    const newMatch = await Matches.create({
+      homeTeam, homeTeamGoals, awayTeam, awayTeamGoals, inProgress: true });
+    return { type: null, message: newMatch };
+  };
+
+  finishedMatch = async (id: string) => {
+    const finished = await Matches.update({ inProgress: false }, { where: { id } });
+    return finished;
+  };
+
+  findById = async (id: string | number) => {
+    const match = await Matches.findOne({ where: { id } });
+    return match;
   };
 }
