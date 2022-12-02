@@ -1,6 +1,7 @@
 import IMatches from '../interfaces/IMatches';
 import Matches from '../database/models/MatchesModel';
 import Teams from '../database/models/TeamsModel';
+import IMatchesUpdate from '../interfaces/IMatchesUpdate';
 
 export default class MatchesService {
   getAll = async () => {
@@ -56,5 +57,11 @@ export default class MatchesService {
   findById = async (id: string | number) => {
     const match = await Matches.findOne({ where: { id } });
     return match;
+  };
+
+  updateMatch = async (id: string, body: IMatchesUpdate) => {
+    const { homeTeamGoals, awayTeamGoals } = body;
+    const updated = await Matches.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+    return updated;
   };
 }
