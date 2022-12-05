@@ -44,9 +44,9 @@ export default class MatchesController {
     this.insertNewMatch(req, res);
   };
 
-  updateMatch = async (req: Request, res: Response) => {
+  async updateMatch(req: Request, res: Response) {
     const { id } = req.params;
     const updated = await this.matchesService.updateMatch(id, req.body);
     if (updated) return res.status(200).json({ message: 'Match updated successfully' });
-  };
+  }
 }
