@@ -59,7 +59,7 @@ export default class MatchesService {
     return match;
   };
 
-  updateMatch = async (id: string, body: IMatchesUpdate) => {
+  updateMatch = async (id: number, body: IMatchesUpdate) => {
     const { homeTeamGoals, awayTeamGoals } = body;
     const updated = await Matches.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
     return updated;

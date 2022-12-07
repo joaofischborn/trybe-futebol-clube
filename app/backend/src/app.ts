@@ -3,6 +3,7 @@ import errorMiddleware from './middlewares/error.middleware';
 import loginRoute from './routes/login.route';
 import teamsRoute from './routes/teams.route';
 import matchesRoute from './routes/matches.route';
+// import leaderboardRoute from './routes/leaderboard.route';
 
 class App {
   public app: express.Express;
